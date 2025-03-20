@@ -3,6 +3,12 @@ import { pluginReact } from '@rsbuild/plugin-react';
 
 export default defineConfig({
   plugins: [pluginReact()],
+  output: {
+    distPath: {
+      root: 'dist'
+    },
+    assetPrefix: '/cdn-manager/'  // 添加这个配置用于 GitHub Pages
+  },
   source: {
     entry: {
       index: './client/src/index.tsx'
@@ -35,4 +41,4 @@ export default defineConfig({
         });
     }
   }
-}); 
+});
