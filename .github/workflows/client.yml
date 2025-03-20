@@ -54,4 +54,5 @@ jobs:
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./client/dist
+        publish_dir: ./dist    # 修改这里，因为 rsbuild.config.js 中配置的输出目录是项目根目录下的 dist
+        force_orphan: true
