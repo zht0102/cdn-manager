@@ -1,0 +1,66 @@
+name: Server CI/CD
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: false
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
+    - name: Cache pnpm store
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install Dependencies
+      working-directory: ./server
+      run: pnpm install
+
+    - name: Deploy to Server
+      if: github.ref == 'refs/heads/main'
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        SERVER_USER: ${{ secrets.SERVER_USER }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+        
+        rsync -avz -e "ssh -i ~/.ssh/deploy_key" \
+          --exclude 'node_modules' \
+          --exclude '.git' \
+          --exclude '.github' \
+          ./server/ $SERVER_USER@$SERVER_HOST:/var/www/cdn-manager/
+        
+        ssh -i ~/.ssh/deploy_key $SERVER_USER@$SERVER_HOST "cd /var/www/cdn-manager && pnpm install && pm2 restart cdn-manager"
