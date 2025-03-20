@@ -31,7 +31,8 @@
     "react-pdf": "^7.6.0",
     "react-player": "^2.14.1",
     "react-router-dom": "^6.21.1",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "terser": "^5.26.0"
   },
   "devDependencies": {
     "@rsbuild/core": "^0.3.3",
