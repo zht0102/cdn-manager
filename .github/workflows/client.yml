@@ -48,8 +48,6 @@ jobs:
     - name: Build
       working-directory: ./client
       run: pnpm build
-      env:
-        PUBLIC_URL: /cdn-manager
 
     - name: List dist directory  # 添加这一步来检查构建输出
       run: ls -la ./dist
