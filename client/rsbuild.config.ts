@@ -37,5 +37,11 @@ export default defineConfig({
                     name: '[name].[hash:8].[ext]'
                 });
         }
+    },
+    output: {
+        distPath: {
+            root: 'dist'
+        },
+        assetPrefix: '/cdn-manager/'
     }
 } as RsbuildConfig);
