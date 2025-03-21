@@ -26,7 +26,8 @@ export default defineConfig({
     html: {
         template: './index.html',
         mountId: 'root',
-        inject: 'body'  // 确保脚本注入到正确位置
+        inject: 'body',  // 确保脚本注入到正确位置
+        publicPath: '/cdn-manager/'
     },
     tools: {
         bundlerChain: (chain: BundlerChain): void => {
