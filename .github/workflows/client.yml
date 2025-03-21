@@ -49,12 +49,16 @@ jobs:
       working-directory: ./client
       run: pnpm build
       env:
-        PUBLIC_URL: /cdn-manager  # 添加这个环境变量
+        PUBLIC_URL: /cdn-manager
+
+    - name: List dist directory  # 添加这一步来检查构建输出
+      run: ls -la ./dist
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist    # 修改这里，因为 rsbuild.config.js 中配置的输出目录是项目根目录下的 dist
+        publish_dir: ./dist
         force_orphan: true
+        cname: ${{ github.repository }}.github.io  # 添加这行

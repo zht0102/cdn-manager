@@ -24,7 +24,9 @@ export default defineConfig({
         }
     },
     html: {
-        template: './index.html'
+        template: './index.html',
+        mountId: 'root',
+        inject: 'body'  // 确保脚本注入到正确位置
     },
     tools: {
         bundlerChain: (chain: BundlerChain): void => {
