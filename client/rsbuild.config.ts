@@ -44,6 +44,5 @@ export default defineConfig({
         distPath: {
             root: 'dist'
         },
-        assetPrefix: '/cdn-manager/'
     }
 } as RsbuildConfig);
