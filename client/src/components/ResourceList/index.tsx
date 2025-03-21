@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
+import { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { Table, Space, Button, message, Tooltip } from 'antd';
 import { EyeOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
+import type { TablePaginationConfig } from 'antd/es/table';
 import axios from 'axios';
 
 interface Resource {
@@ -14,28 +15,32 @@ interface Resource {
   accessCount: number;
 }
 
+interface ApiResponse<T> {
+  data: T;
+  pagination: {
+    total: number;
+  };
+}
+
 export interface ResourceListRef {
   refresh: () => void;
 }
 
-const ResourceList = forwardRef<ResourceListRef>((props, ref) => {
+interface ResourceListProps {}
+
+const ResourceList = forwardRef<ResourceListRef, ResourceListProps>((_, ref) => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(false);
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: 10,
     total: 0
   });
 
-  // 暴露 refresh 方法给父组件
-  useImperativeHandle(ref, () => ({
-    refresh: fetchResources
-  }));
-
   const fetchResources = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get('/api/resources', {
+      const { data } = await axios.get<ApiResponse<Resource[]>>('/api/resources', {
         params: {
           page: pagination.current,
           limit: pagination.pageSize
@@ -50,7 +55,18 @@ const ResourceList = forwardRef<ResourceListRef>((props, ref) => {
       message.error('获取资源列表失败');
     }
     setLoading(false);
-  }, [pagination.current, pagination.pageSize])
+  }, [pagination.current, pagination.pageSize]);
+
+    // 暴露 refresh 方法给父组件
+    useImperativeHandle(
+      ref,
+      () => ({
+        refresh: () => {
+          fetchResources();
+        }
+      }),
+      [fetchResources]
+    );
 
   useEffect(() => {
     fetchResources();
@@ -82,11 +98,10 @@ const ResourceList = forwardRef<ResourceListRef>((props, ref) => {
 
     const handleDownload = async (record: Resource) => {
         try {
-            const response = await axios.get(`/api/resources/${record._id}/download`, {
+            const response = await axios.get<Blob>(`/api/resources/${record._id}/download`, {
                 responseType: 'blob'
             });
 
-            // 创建下载链接
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
@@ -174,15 +189,17 @@ const ResourceList = forwardRef<ResourceListRef>((props, ref) => {
   ];
 
   return (
-    <Table
+    <Table<Resource>
       columns={columns}
       dataSource={resources}
       rowKey="_id"
       pagination={pagination}
       loading={loading}
-      onChange={(pagination) => setPagination(pagination)}
+      onChange={(p: TablePaginationConfig) => setPagination(p)}
     />
   );
 });
+
+ResourceList.displayName = 'ResourceList';
 
 export default ResourceList;

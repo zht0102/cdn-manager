@@ -1,15 +1,4 @@
-import React, { useState } from 'react';
-import { Upload, message, Progress, Card } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import axios from 'axios';
-
-const { Dragger } = Upload;
-
-interface DragUploadProps {
-  onUploadSuccess?: () => void;
-}
-
+import React from 'react';
 import { Upload, message } from 'antd';
 import type { UploadProps } from 'antd';
 
@@ -32,7 +21,7 @@ const DragUpload: React.FC<{ onUploadSuccess: () => void }> = ({ onUploadSuccess
     action: '/api/upload',
     accept: allowedFileTypes.join(','),
     beforeUpload: (file) => {
-      const isAllowedType = allowedFileTypes.some(type => 
+      const isAllowedType = allowedFileTypes.some(type =>
         file.name.toLowerCase().endsWith(type)
       );
       const isLt50M = file.size / 1024 / 1024 < 50;
