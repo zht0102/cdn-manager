@@ -7,7 +7,6 @@ export default defineConfig({
     distPath: {
       root: 'dist'
     },
-    assetPrefix: '/cdn-manager/'  // 添加这个配置用于 GitHub Pages
   },
   source: {
     entry: {
