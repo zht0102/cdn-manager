@@ -1,0 +1,107 @@
+/*! @ant-design/icons */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! antd */
+
+/*! react */
+
+/*! @/components/TrashList */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! axios */
+
+/*! react/jsx-runtime */
+
+/*! antd */
+
+/*! @ant-design/icons */
+
+/*! react-router-dom */
+
+/*! antd */
+
+/*! react-router-dom */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @/components/DragUpload */
+
+/*! ./index.less */
+
+/*! antd */
+
+/*! core-js/modules/web.url-search-params.delete.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @/components/ResourceList */
+
+/*! antd */
+
+/*! axios */
+
+/*! react */
+
+/*! @/pages/Resources */
+
+/*! @ant-design/icons */
+
+/*! core-js/modules/web.url-search-params.size.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.url-search-params.has.js */
+
+/*! antd */
+
+/*! ./router */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! axios */
+
+/*! @ant-design/icons */
+
+/*! @/layouts/MainLayout */
+
+/*! antd */
+
+/*! @ant-design/icons */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react-router-dom */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react-dom/client */
+
+/*! @/pages/Home */
+
+/*! @/pages/Trash */
+
+/*! react/jsx-runtime */
+
+/*! antd */
+
+/*! @/pages/Settings */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
